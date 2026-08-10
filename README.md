@@ -23,7 +23,8 @@ cp .env.example .env
 docker compose up --build
 ```
 
-API will be available at `http://localhost:8000/docs`.
+API will be available at `http://localhost:8000/docs`. The Postgres container
+exposes a healthcheck so the API waits for the database to be ready before starting.
 
 ## Local Development (without Docker)
 
