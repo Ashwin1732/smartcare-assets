@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from app.routers import assets
+from app.routers import assets, telemetry
 
 app = FastAPI(
     title="SmartCare Assets API",
@@ -9,6 +9,7 @@ app = FastAPI(
 )
 
 app.include_router(assets.router, prefix="/api/v1/assets", tags=["assets"])
+app.include_router(telemetry.router, prefix="/api/v1/telemetry", tags=["telemetry"])
 
 
 @app.get("/health")
