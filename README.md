@@ -1,0 +1,39 @@
+# SmartCare Assets
+
+Intelligent Hospital Asset Tracking and Equipment Management Platform.
+
+Tracks the real-time location, battery status, and utilization of shared hospital
+equipment (ventilators, infusion pumps, ECG machines, portable monitors) using
+RFID/BLE telemetry, predicts maintenance needs, and routes alerts to biomedical
+engineers.
+
+## Stack
+
+- **Backend:** Python 3.12, FastAPI, SQLAlchemy (async), Alembic
+- **Database:** PostgreSQL 16
+- **Containerization:** Docker, Docker Compose
+- **Testing:** Pytest
+
+## Quick Start (Docker)
+
+```bash
+git clone <repo-url>
+cd smartcare-assets
+cp .env.example .env
+docker compose up --build
+```
+
+API will be available at `http://localhost:8000/docs`.
+
+## Local Development (without Docker)
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+uvicorn app.main:app --reload
+```
+
+## Project Structure
+
+See `docs/project_structure.md` for a full breakdown of the repository layout.
