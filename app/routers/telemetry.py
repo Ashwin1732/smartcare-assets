@@ -10,7 +10,7 @@ from app.models.asset import Asset, AssetStatus
 
 router = APIRouter()
 
-LOW_BATTERY_THRESHOLD = 20.0
+LOW_BATTERY_THRESHOLD = 15.0
 
 
 class TelemetryUpdate(BaseModel):
