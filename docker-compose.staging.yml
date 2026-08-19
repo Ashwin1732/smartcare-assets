@@ -1,0 +1,43 @@
+version: "3.9"
+
+# Staging overlay: pulls the pre-built image from the registry instead of
+# building locally, and points at the staging database.
+services:
+  api:
+    image: ghcr.io/ashwin-s/smartcare-assets-api:latest
+    container_name: smartcare-api-staging
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=${STAGING_DATABASE_URL}
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - smartcare-net
+
+  db:
+    image: postgres:16-alpine
+    container_name: smartcare-db-staging
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    volumes:
+      - postgres_staging_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - smartcare-net
+
+volumes:
+  postgres_staging_data:
+
+networks:
+  smartcare-net:
+    driver: bridge
