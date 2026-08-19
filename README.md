@@ -7,6 +7,10 @@ equipment (ventilators, infusion pumps, ECG machines, portable monitors) using
 RFID/BLE telemetry, predicts maintenance needs, and routes alerts to biomedical
 engineers.
 
+## Billing Module
+
+This module integrates payment gateways for service plans.
+
 ## Stack
 
 - **Backend:** Python 3.12, FastAPI, SQLAlchemy (async), Alembic
