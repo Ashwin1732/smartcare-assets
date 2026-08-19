@@ -7,6 +7,10 @@ equipment (ventilators, infusion pumps, ECG machines, portable monitors) using
 RFID/BLE telemetry, predicts maintenance needs, and routes alerts to biomedical
 engineers.
 
+## User Module
+
+This module handles user registration, authentication, and role management.
+
 ## Billing Module
 
 This module integrates payment gateways for service plans.
