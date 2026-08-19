@@ -1,0 +1,47 @@
+version: "3.9"
+
+# Production overlay: blue-green pair behind a shared load balancer target
+# group, plus a managed/backed-up database rather than a local volume.
+services:
+  api-blue:
+    image: ghcr.io/ashwin-s/smartcare-assets-api:${CURRENT_STABLE_TAG}
+    container_name: smartcare-api-blue
+    restart: unless-stopped
+    environment:
+      - DATABASE_URL=${PROD_DATABASE_URL}
+    networks:
+      - smartcare-net
+
+  api-green:
+    image: ghcr.io/ashwin-s/smartcare-assets-api:${CANDIDATE_TAG}
+    container_name: smartcare-api-green
+    restart: unless-stopped
+    environment:
+      - DATABASE_URL=${PROD_DATABASE_URL}
+    networks:
+      - smartcare-net
+
+  db:
+    image: postgres:16-alpine
+    container_name: smartcare-db-prod
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    volumes:
+      - postgres_prod_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - smartcare-net
+
+volumes:
+  postgres_prod_data:
+
+networks:
+  smartcare-net:
+    driver: bridge
