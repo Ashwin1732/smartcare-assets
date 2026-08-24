@@ -22,6 +22,27 @@ This module integrates payment gateways for service plans.
 - **Containerization:** Docker, Docker Compose
 - **Testing:** Pytest
 
+## CI/CD Pipeline & Deployment
+
+This project uses a GitHub Actions workflow to automate testing and deployment.
+
+### Workflow Details
+1. **Build & Test**: Runs linting (`flake8`) and tests (`pytest`).
+2. **Build & Push**: Builds the Docker image and pushes it to Docker Hub.
+3. **Deploy**: Triggers a deployment on Render via a deploy hook.
+
+### Required GitHub Secrets
+To make the pipeline work, you must configure the following secrets in your GitHub repository:
+- `DOCKERHUB_USERNAME`: Your Docker Hub username.
+- `DOCKERHUB_TOKEN`: An access token for your Docker Hub account.
+- `RENDER_DEPLOY_HOOK_URL`: The Deploy Hook URL from your Render Web Service.
+
+### Setting up Render
+1. Create a **New Web Service** on Render.
+2. Select **Deploy an existing image from a registry**.
+3. Provide the Image URL (e.g., `your_dockerhub_username/smartcare-assets-api:latest`).
+4. Once created, go to the **Settings** of the Web Service, find the **Deploy Hook** URL, and add it to your GitHub Secrets.
+
 ## Quick Start (Docker)
 
 ```bash

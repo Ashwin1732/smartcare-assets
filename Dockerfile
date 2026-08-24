@@ -1,5 +1,5 @@
 # ---- Base image ----
-FROM python:3.12-slim AS base
+FROM python:3.11-slim AS base
 
 # Prevents Python from writing .pyc files and buffering stdout/stderr
 ENV PYTHONDONTWRITEBYTECODE=1 \
@@ -9,7 +9,7 @@ WORKDIR /app
 
 # ---- Install dependencies (separate layer for caching) ----
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir --default-timeout=1000 -r requirements.txt
 
 # ---- Copy application source ----
 COPY app/ ./app/
